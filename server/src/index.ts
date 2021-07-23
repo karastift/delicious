@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import { port, __prod__ } from './constants';
+import { cookieName, port, __prod__ } from './constants';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
-import { HelloResolver } from './resolvers/hello';
+import { ChickenNuggetsResolver } from './resolvers/chickenNuggets';
 import { FoodResolver } from './resolvers/food';
 import { createConnection } from 'typeorm';
 import { Wish } from './entities/Wish';
@@ -35,7 +35,7 @@ const main = async () => {
 
     app.use(
         session({
-            name: 'adeliciouscookie',
+            name: cookieName,
             store: new RedisStore({
                 client: redisClient,
                 disableTouch: true,
@@ -54,7 +54,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [HelloResolver, FoodResolver, HouseResolver],
+            resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver],
             validate: false,
         }),
         context: ({ req, res }): MyContext => ({ req, res, }), // add redis

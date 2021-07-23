@@ -1,14 +1,25 @@
 import argon2 from 'argon2';
 import { validateRegister } from "../validations/validateRegister";
-import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { RegisterInput } from "../types/inputs/RegisterInput";
 import { HouseResponse } from "../types/responses/HouseResponse";
 import { MyContext } from "../types/MyContext";
 import { House } from '../entities/House';
 import { LoginInput } from '../types/inputs/LoginInput';
+import { cookieName } from '../constants';
 
 @Resolver()
 export class HouseResolver {
+
+    @Query(() => House, { nullable: true })
+    myHouse(
+        @Ctx() { req }: MyContext,
+    ) {
+        const { houseId } = req.session;
+        if (!houseId) return null;
+        return House.findOne({ where: { id: houseId } });
+
+    }
 
     @Mutation(() => HouseResponse)
     async register(
@@ -69,5 +80,20 @@ export class HouseResolver {
         req.session.houseId = house.id;
 
         return { house }
+    }
+
+    @Mutation(() => Boolean)
+    logout(
+        @Ctx() { req, res }: MyContext,
+    ) {
+        return new Promise(resolve => req.session.destroy(err => {
+            res.clearCookie(cookieName);
+            if (err) {
+                console.log(err);
+                resolve(false);
+                return;
+            }
+            resolve(true);
+        }));
     }
 }
