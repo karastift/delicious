@@ -10,4 +10,9 @@ export class FoodResolver {
 
         return Food.find({});
     }
+    // food by name
+    // food for house (would be a duplicate)
+    // createFood
+    // deleteFood
+    // updateFood
 }

@@ -14,6 +14,9 @@ import { Wish } from '../entities/Wish';
 @Resolver(House)
 export class HouseResolver {
 
+    // deletehouse
+    // updateHouse
+
     @FieldResolver(() => [Food], { nullable: true })
     foods(
         @Root() house: House,
