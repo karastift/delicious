@@ -27,7 +27,7 @@ const main = async () => {
         synchronize: !__prod__,
         entities: [Wish, Food, House],
     });
-
+    
     const app = express();
 
     const RedisStore = connectRedis(session);
@@ -57,7 +57,7 @@ const main = async () => {
             resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver],
             validate: false,
         }),
-        context: ({ req, res }): MyContext => ({ req, res, }), // add redis
+        context: ({ req, res }): MyContext => ({ req, res }), // add redis
         plugins: [
             ApolloServerPluginLandingPageGraphQLPlayground,
         ],

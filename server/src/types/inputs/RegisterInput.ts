@@ -6,4 +6,6 @@ export class RegisterInput {
     houseName: string;
     @Field()
     password: string;
+    @Field()
+    private: boolean;
 }

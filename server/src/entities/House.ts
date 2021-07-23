@@ -18,6 +18,10 @@ export class House extends BaseEntity{
     @Column()
     password!: string;
 
+    @Field(() => Boolean)
+    @Column()
+    private!: boolean;
+
     @Field(() => [Wish], { nullable: true })
     @OneToMany(() => Wish, (wish) => wish.house)
     wishes: Wish[]
