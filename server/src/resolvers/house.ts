@@ -8,17 +8,17 @@ import { House } from '../entities/House';
 import { LoginInput } from '../types/inputs/LoginInput';
 import { cookieName } from '../constants';
 
+
 @Resolver()
 export class HouseResolver {
 
     @Query(() => House, { nullable: true })
     myHouse(
         @Ctx() { req }: MyContext,
-    ) {
+    ): Promise<House | undefined> | null {
         const { houseId } = req.session;
         if (!houseId) return null;
         return House.findOne({ where: { id: houseId } });
-
     }
 
     @Mutation(() => HouseResponse)
