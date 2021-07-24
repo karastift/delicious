@@ -9,20 +9,22 @@ import { LoginInput } from '../types/inputs/LoginInput';
 import { cookieName } from '../constants';
 import { Food } from '../entities/Food';
 import { Wish } from '../entities/Wish';
+import { UpdateHouseInput } from '../types/inputs/UpdateHouseInput';
 
 
 @Resolver(House)
 export class HouseResolver {
 
-    // deletehouse
-    // updateHouse
+    // admin resolver for me -> https://typegraphql.com/docs/authorization.html
+    // isAuth middleware -> https://typegraphql.com/docs/authorization.html
+    // @Authorized Decorator is useful for admin panel -> https://typegraphql.com/docs/authorization.html
 
     @FieldResolver(() => [Food], { nullable: true })
     foods(
         @Root() house: House,
         @Ctx() { req }: MyContext,
     ): Promise<Food[] | undefined> | undefined {
-        if (!house.private || req.session.houseId === house.id) return Food.find({ where: { houseId: house.id } });
+        if (!house.private || req.session.houseId === house.id) return Food.find({ where: { houseId: house.id } }); // createFoodLoader like UserLoader in socialschool
         return undefined;
     }
 
@@ -31,7 +33,7 @@ export class HouseResolver {
         @Root() house: House,
         @Ctx() { req }: MyContext,
     ): Promise<Wish[] | undefined> | undefined {
-        if (!house.private || req.session.houseId === house.id) return Wish.find({ where: { houseId: house.id } });
+        if (!house.private || req.session.houseId === house.id) return Wish.find({ where: { houseId: house.id } }); // createFoodLoader like UserLoader in socialschoo
         return undefined;
     }
 
@@ -84,6 +86,50 @@ export class HouseResolver {
         req.session.houseId = house.id;
 
         return { house };
+    }
+
+    @Mutation(() => HouseResponse)
+    async updateMyHouse(
+        @Arg('input') input: UpdateHouseInput,
+        @Ctx() { req }: MyContext,
+    ): Promise<HouseResponse> {
+
+        const house = await House.findOne(req.session.houseId);
+        if (!house) return {
+            error: {
+                field: 'houseName',
+                message: 'Your house does not exist for some reason. Maybe you deleted it.'
+            },
+        };
+        try {
+            await House.update({ id: req.session.houseId }, {
+                name: input.houseName,
+                private: input.private,
+            });
+            const updatedHouse = await House.findOne(req.session.houseId);
+            return { house: updatedHouse };
+        }
+        catch {
+            return {
+                error: {
+                    field: 'houseName',
+                    message: 'There is already another house with that name.',
+                }
+            };
+        }
+    }
+
+    @Mutation(() => Boolean)
+    async deleteMyHouse(
+        @Ctx() { req }: MyContext,
+    ) {
+        try {
+            await House.delete({ id: req.session.houseId });
+            return true;
+        }
+        catch {
+            return false;
+        }
     }
 
     @Mutation(() => HouseResponse)
