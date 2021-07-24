@@ -27,7 +27,7 @@ const main = async () => {
         synchronize: !__prod__,
         entities: [Wish, Food, House],
     });
-    
+
     const app = express();
 
     const RedisStore = connectRedis(session);
@@ -67,7 +67,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app });
 
-    app.listen(port, () => console.log('🍏🍏 delicious-server ready at http://localhost:' + port + ' 🍏🍏'))
+    app.listen(port, () => console.log('The delicious-server ready at http://localhost:' + port.toString().split('0').join('🍏')));
 };
 
 main()
