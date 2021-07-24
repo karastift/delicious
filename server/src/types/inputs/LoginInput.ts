@@ -2,8 +2,8 @@ import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class LoginInput {
-    @Field()
+    @Field(() => String)
     houseName: string;
-    @Field()
+    @Field(() => String)
     password: string;
 }
