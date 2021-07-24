@@ -44,7 +44,7 @@ const main = async () => {
                 httpOnly: true,
                 sameSite: 'lax',
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
-                secure: false // only set to true if i have a domain for my backend
+                secure: false // only set to true if i have a domain for my backend (and ssl)
             },
             saveUninitialized: false,
             secret: 'cat',
@@ -67,7 +67,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app });
 
-    app.listen(port, () => console.log('Server started on localhost:'+port))
+    app.listen(port, () => console.log('🍏🍏 delicious-server ready at http://localhost:' + port + ' 🍏🍏'))
 };
 
 main()
