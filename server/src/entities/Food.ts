@@ -12,21 +12,20 @@ export class Food extends BaseEntity {
     id!: number;
 
     @Field(() => String)
-    @Column({ unique: false })
+    @Column()
     foodName!: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     @Column()
     description: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     @Column()
     recipeLink: string;
 
     @OneToMany(() => Wish, (wish) => wish.food)
     wishes: Wish[];
 
-    @Field(() => Int)
     @Column()
     houseId: number;
 
