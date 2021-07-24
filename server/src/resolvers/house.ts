@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 import { validateRegister } from "../validations/validateRegister";
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
 import { RegisterInput } from "../types/inputs/RegisterInput";
 import { HouseResponse } from "../types/responses/HouseResponse";
 import { MyContext } from "../types/MyContext";
@@ -10,14 +10,10 @@ import { cookieName } from '../constants';
 import { Food } from '../entities/Food';
 import { Wish } from '../entities/Wish';
 import { UpdateHouseInput } from '../types/inputs/UpdateHouseInput';
-
+import { isAuthenticated } from '../middleware/isAuthenticated';
 
 @Resolver(House)
 export class HouseResolver {
-
-    // admin resolver for me -> https://typegraphql.com/docs/authorization.html
-    // isAuth middleware -> https://typegraphql.com/docs/authorization.html
-    // @Authorized Decorator is useful for admin panel -> https://typegraphql.com/docs/authorization.html
 
     @FieldResolver(() => [Food], { nullable: true })
     foods(
@@ -37,27 +33,55 @@ export class HouseResolver {
         return undefined;
     }
 
-    @Query(() => House, { nullable: true })
-    myHouse(
-        @Ctx() { req }: MyContext,
-    ): Promise<House | undefined> | null {
-        const { houseId } = req.session;
-        if (!houseId) return null;
-        return House.findOne({ where: { id: houseId } });
+    @Query(() => HouseResponse)
+    async houseByName(
+        @Arg('houseName', () => String) houseName: string,
+    ): Promise<HouseResponse> {
+        const house = await House.findOne({ where: { name: houseName } });
+        if (!house) return {
+            error: {
+                field: 'houseName',
+                message: 'There is no house with that name.',
+            },
+        };
+
+        return { house };
     }
 
-    @Query(() => House, { nullable: true })
+    // @UseMiddleware(isAuthenticated)
+    // @Query(() => [House], { nullable: true })
+    // allHouses(): Promise<House[]> {
+    //     return House.find({});
+    // }
+
+    @UseMiddleware(isAuthenticated)
+    @Query(() => HouseResponse, { nullable: true })
+    async myHouse(
+        @Ctx() { req }: MyContext,
+    ): Promise<HouseResponse | null> {
+        const { houseId } = req.session;
+        if (!houseId) return null;
+        return { house: await House.findOne({ where: { id: houseId } }) };
+    }
+
+    @UseMiddleware(isAuthenticated)
+    @Query(() => HouseResponse, { nullable: true })
     async houseById(
         @Arg('id') id: number,
-    ): Promise<House | undefined> {
+    ): Promise<HouseResponse> {
         const house = await House.findOne({ where: { id } });
-        if (!house) return undefined;
-        return house;
+        if (!house) return {
+            error: {
+                field: 'id',
+                message: 'House does not exist.',
+            }
+        };
+        return { house };
     }
 
     @Mutation(() => HouseResponse)
     async register(
-        @Arg('input') input: RegisterInput,
+        @Arg('input', () => RegisterInput) input: RegisterInput,
         @Ctx() { req }: MyContext
     ): Promise<HouseResponse> {
         const error = validateRegister(input);
@@ -88,14 +112,15 @@ export class HouseResolver {
         return { house };
     }
 
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => HouseResponse)
     async updateMyHouse(
-        @Arg('input') input: UpdateHouseInput,
+        @Arg('input', () => UpdateHouseInput) input: UpdateHouseInput,
         @Ctx() { req }: MyContext,
     ): Promise<HouseResponse> {
 
-        const house = await House.findOne(req.session.houseId);
-        if (!house) return {
+        const count = await House.count({ where: { id: req.session.houseId } });
+        if (!count) return {
             error: {
                 field: 'houseName',
                 message: 'Your house does not exist for some reason. Maybe you deleted it.'
@@ -106,8 +131,7 @@ export class HouseResolver {
                 name: input.houseName,
                 private: input.private,
             });
-            const updatedHouse = await House.findOne(req.session.houseId);
-            return { house: updatedHouse };
+            return { house: await House.findOne(req.session.houseId) };
         }
         catch {
             return {
@@ -119,6 +143,7 @@ export class HouseResolver {
         }
     }
 
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteMyHouse(
         @Ctx() { req }: MyContext,
@@ -134,7 +159,7 @@ export class HouseResolver {
 
     @Mutation(() => HouseResponse)
     async login(
-        @Arg('input') input: LoginInput,
+        @Arg('input', () => LoginInput) input: LoginInput,
         @Ctx() { req }: MyContext,
     ): Promise<HouseResponse> {
         
@@ -175,4 +200,6 @@ export class HouseResolver {
             resolve(true);
         }));
     }
+
+    // admin queries/mutations
 }
