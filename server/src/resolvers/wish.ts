@@ -1,5 +1,5 @@
 import { Wish } from '../entities/Wish';
-import { Arg, Ctx, Int, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
 import { WishResponse } from '../types/responses/WishResponse';
 import { MyContext } from '../types/MyContext';
 import { WishNotFoundByIdError } from '../errors/wishErrors/WishNotFoundByIdError';
@@ -17,6 +17,20 @@ import { UpdateWishInput } from '../types/inputs/UpdateWishInput';
 
 @Resolver(Wish)
 export class WishResolver {
+
+    @FieldResolver(() => House)
+    house(
+        @Root() wish: Wish,
+    ) {
+        return House.findOne(wish.houseId);
+    }
+
+    @FieldResolver(() => House)
+    food(
+        @Root() wish: Wish,
+    ) {
+        return Food.findOne(wish.foodId);
+    }
 
     @UseMiddleware(isAuthenticated)
     @Query(() => WishResponse)
