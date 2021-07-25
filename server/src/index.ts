@@ -67,7 +67,7 @@ const main = async () => {
             resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver, WishResolver],
             validate: false,
         }),
-        context: ({ req, res }): MyContext => ({ req, res }), // add redis
+        context: ({ req, res }): MyContext => ({ req, res }),
         plugins: [
             ApolloServerPluginLandingPageGraphQLPlayground,
         ],
