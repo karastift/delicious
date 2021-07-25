@@ -6,11 +6,11 @@ import { HouseResponse } from "../types/responses/HouseResponse";
 import { MyContext } from "../types/MyContext";
 import { House } from '../entities/House';
 import { LoginInput } from '../types/inputs/LoginInput';
-import { cookieName } from '../constants';
 import { Food } from '../entities/Food';
 import { Wish } from '../entities/Wish';
 import { UpdateHouseInput } from '../types/inputs/UpdateHouseInput';
 import { isAuthenticated } from '../middleware/isAuthenticated';
+import { houseNameDuplicate, houseNotFoundById, houseNotFoundByName, houseToUpdateNotFound, incorrectPassword } from '../messages/houseMessages';
 
 @Resolver(House)
 export class HouseResolver {
@@ -41,7 +41,7 @@ export class HouseResolver {
         if (!house) return {
             error: {
                 field: 'houseName',
-                message: 'There is no house with that name.',
+                message: houseNotFoundByName,
             },
         };
 
@@ -73,7 +73,7 @@ export class HouseResolver {
         if (!house) return {
             error: {
                 field: 'id',
-                message: 'House does not exist.',
+                message: houseNotFoundById,
             }
         };
         return { house };
@@ -102,7 +102,7 @@ export class HouseResolver {
             return {
                 error: {
                     field: 'houseName',
-                    message: 'The already is another house with with that name.',
+                    message: houseNameDuplicate,
                 },
             };
         }
@@ -123,7 +123,7 @@ export class HouseResolver {
         if (!count) return {
             error: {
                 field: 'houseName',
-                message: 'Your house does not exist for some reason. Maybe you deleted it.'
+                message: houseToUpdateNotFound,
             },
         };
         try {
@@ -137,7 +137,7 @@ export class HouseResolver {
             return {
                 error: {
                     field: 'houseName',
-                    message: 'There is already another house with that name.',
+                    message: houseNameDuplicate,
                 }
             };
         }
@@ -168,7 +168,7 @@ export class HouseResolver {
         if (!house) return {
             error: {
                 field: 'houseName',
-                message: 'Could not find any house with that name.',
+                message: houseNotFoundByName,
             },
         };
 
@@ -177,7 +177,7 @@ export class HouseResolver {
         if (!isPasswordValid) return {
             error: {
                 field: 'password',
-                message: 'Your password is not correct.',
+                message: incorrectPassword,
             },
         };
 
@@ -191,7 +191,7 @@ export class HouseResolver {
         @Ctx() { req, res }: MyContext,
     ) {
         return new Promise(resolve => req.session.destroy(err => {
-            res.clearCookie(cookieName);
+            res.clearCookie(process.env.COOKIE_NAME);
             if (err) {
                 console.log(err);
                 resolve(false);
