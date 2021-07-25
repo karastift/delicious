@@ -1,4 +1,4 @@
-import { FieldError } from "../types/responses/errors/FieldError";
+import { FieldError } from "../types/errors/FieldError";
 import { FoodInput } from "../types/inputs/FoodInput";
 
 export const validateFood = (input: FoodInput): FieldError | undefined => {
