@@ -35,6 +35,8 @@ const main = async () => {
 
     const RedisStore = connectRedis(session);
     const redisClient = redis.createClient();
+    
+    app.set('proxy', 1);
 
     app.use(
         cors({
