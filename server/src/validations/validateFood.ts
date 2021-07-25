@@ -1,4 +1,4 @@
-import { FoodNameTooShortError } from "src/errors/foodErrors/FoodNameTooShortError";
+import { FoodNameTooShortError } from "../errors/foodErrors/FoodNameTooShortError";
 import { FieldError } from "../types/errors/FieldError";
 import { FoodInput } from "../types/inputs/FoodInput";
 

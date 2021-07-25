@@ -16,15 +16,12 @@ import session from 'express-session';
 import connectRedis from 'connect-redis';
 import { MyContext } from './types/MyContext';
 import cors from 'cors';
-import { serverUp } from './messages/generalMessages';
+import { WishResolver } from './resolvers/wish';
 
 const main = async () => {
 
     await createConnection({
         type: 'postgres',
-        database: 'delicious',
-        username: 'kara',
-        password: 'Luna05',
         url: process.env.DATABASE_URL,
         logging: true,
         synchronize: true,
@@ -67,7 +64,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver],
+            resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver, WishResolver],
             validate: false,
         }),
         context: ({ req, res }): MyContext => ({ req, res }), // add redis
@@ -80,7 +77,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app });
 
-    app.listen(parseInt(process.env.PORT), () => console.log(serverUp));
+    app.listen(parseInt(process.env.PORT), () => console.log('Delicious server is up.'));
 };
 
 main()

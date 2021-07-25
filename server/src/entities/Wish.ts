@@ -28,8 +28,8 @@ export class Wish extends BaseEntity {
     house: House;
 
     @Field(() => String)
-    @Column()
-    day: Date;
+    @Column('timestamp', { name: 'time' })
+    time!: Date;
 
     @Field(() => String)
     @CreateDateColumn()
