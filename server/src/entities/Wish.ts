@@ -5,7 +5,7 @@ import { Food } from "./Food";
 
 @ObjectType()
 @Entity()
-export class Wish extends BaseEntity{
+export class Wish extends BaseEntity {
 
     @Field(() => Int)
     @PrimaryGeneratedColumn()
