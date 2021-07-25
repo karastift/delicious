@@ -8,6 +8,7 @@ import { MyContext } from '../types/MyContext';
 import { FoodInput } from '../types/inputs/FoodInput';
 import { validateFood } from '../validations/validateFood';
 import { UpdateFoodInput } from '../types/inputs/UpdateFoodInput';
+import { duplicateFood, foodNotFoundById, foodToUpdateNotFound, houseNotFound, privateHouse } from '../messages/foodMessages';
 
 @Resolver(Food)
 export class FoodResolver {
@@ -50,7 +51,7 @@ export class FoodResolver {
         if (!foods.length) return {
             error: {
                 field: 'foodName',
-                message: 'There is no food with that name.',
+                message: foodNotFoundById,
             },
         };
 
@@ -67,13 +68,13 @@ export class FoodResolver {
         if (!house) return {
             error: {
                 field: 'houseId',
-                message: 'House not found.',
+                message: houseNotFound,
             },
         };
         if (house.private && house.id !== req.session.houseId) return {
             error: {
                 field: 'houseId',
-                message: 'This house is private.',
+                message: privateHouse,
             },
         };
 
@@ -93,7 +94,7 @@ export class FoodResolver {
         if (existingFoodInHouseWithSameName) return {
             error: {
                 field: 'foodName',
-                message: 'You already have a food with that name.',
+                message: duplicateFood,
             },
         };
 
@@ -131,7 +132,7 @@ export class FoodResolver {
         if (!food) return {
             error: {
                 field: 'foodId',
-                message: 'The food you want to update does not exist. Maybe it was deleted.',
+                message: foodToUpdateNotFound,
             },
         };
         const { foodId, ...updateInput} = foodInput;
