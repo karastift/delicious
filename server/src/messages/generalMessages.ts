@@ -1,1 +1,0 @@
-export const serverUp = 'The delicious-server ready at http://localhost:' + process.env.PORT.split('0').join('🍏');

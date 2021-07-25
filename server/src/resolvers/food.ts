@@ -4,11 +4,15 @@ import { isAuthenticated } from '../middleware/isAuthenticated';
 import { FoodResponse } from '../types/responses/FoodResponse';
 import { House } from '../entities/House';
 import { MultipleFoodsResponse } from '../types/responses/MultipleFoodsResponse';
-import { MyContext } from '../types/MyContext';
 import { FoodInput } from '../types/inputs/FoodInput';
 import { validateFood } from '../validations/validateFood';
 import { UpdateFoodInput } from '../types/inputs/UpdateFoodInput';
-import { duplicateFood, foodNotFoundById, foodNotFoundByName, foodToUpdateNotFound, houseNotFound, privateHouse } from '../messages/foodMessages';
+import { FoodNotFoundByIdError } from '../errors/foodErrors/FoodNotFoundByIdError';
+import { FoodNotFoundByNameError } from '../errors/foodErrors/FoodNotFoundByNameError';
+import { MyContext } from '../types/MyContext';
+import { HouseNotFoundByIdError } from '../errors/houseErrors/HouseNotFoundByIdError';
+import { PrivateHouseError } from '../errors/houseErrors/PrivateHouseError';
+import { DuplicateFoodError } from '../errors/foodErrors/DuplicateFoodError';
 
 @Resolver(Food)
 export class FoodResolver {
@@ -33,12 +37,8 @@ export class FoodResolver {
         @Arg('foodId', () => Int) foodId: number,
     ): Promise<FoodResponse> {
         const food = await Food.findOne(foodId);
-        if (!food) return {
-            error: {
-                field: 'foodId',
-                message: foodNotFoundById,
-            }
-        };
+        if (!food) return { error: FoodNotFoundByIdError };
+
         return { food };
     }
 
@@ -48,12 +48,7 @@ export class FoodResolver {
         @Arg('foodName', () => String) foodName: string,
     ): Promise<MultipleFoodsResponse> {
         const foods = await Food.find({ where: { foodName } });
-        if (!foods.length) return {
-            error: {
-                field: 'foodName',
-                message: foodNotFoundByName,
-            },
-        };
+        if (!foods.length) return { error: FoodNotFoundByNameError };
 
         return { foods };
     }
@@ -65,18 +60,8 @@ export class FoodResolver {
         @Ctx() { req }: MyContext,
     ): Promise<MultipleFoodsResponse> {
         const house = await House.findOne(houseId);
-        if (!house) return {
-            error: {
-                field: 'houseId',
-                message: houseNotFound,
-            },
-        };
-        if (house.private && house.id !== req.session.houseId) return {
-            error: {
-                field: 'houseId',
-                message: privateHouse,
-            },
-        };
+        if (!house) return { error: HouseNotFoundByIdError };
+        if (house.private && house.id !== req.session.houseId) return { error: PrivateHouseError };
 
         return { foods: await Food.find({ where: { houseId } }) };
     }
@@ -91,12 +76,7 @@ export class FoodResolver {
         if (error) return { error };
         
         const existingFoodInHouseWithSameName = await Food.count({ where: { foodName: foodInput.foodName, houseId: req.session.houseId } });
-        if (existingFoodInHouseWithSameName) return {
-            error: {
-                field: 'foodName',
-                message: duplicateFood,
-            },
-        };
+        if (existingFoodInHouseWithSameName) return { error: DuplicateFoodError };
 
         return {
             food: await Food.create({
@@ -129,12 +109,7 @@ export class FoodResolver {
     ): Promise<FoodResponse> {
         const food = await Food.count({ id: foodInput.foodId, houseId: req.session.houseId });
         
-        if (!food) return {
-            error: {
-                field: 'foodId',
-                message: foodToUpdateNotFound,
-            },
-        };
+        if (!food) return { error: FoodNotFoundByIdError };
         const { foodId, ...updateInput} = foodInput;
         Food.update(
             { id: foodInput.foodId, houseId: req.session.houseId },

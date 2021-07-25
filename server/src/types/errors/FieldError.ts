@@ -1,4 +1,4 @@
-import { ObjectType, Field } from "type-graphql";
+import { ObjectType, Field, Int } from "type-graphql";
 
 @ObjectType()
 export class FieldError {
@@ -6,4 +6,6 @@ export class FieldError {
     field: string;
     @Field(() => String)
     message: string;
+    @Field(() => Int)
+    code: number;
 }
