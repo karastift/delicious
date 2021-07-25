@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'dotenv-safe/config';
 import { cookieName, port, __prod__ } from './constants';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
@@ -15,6 +16,7 @@ import redis from 'redis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import { MyContext } from './types/MyContext';
+import cors from 'cors';
 
 const main = async () => {
 
@@ -23,6 +25,7 @@ const main = async () => {
         database: 'delicious',
         username: 'kara',
         password: 'Luna05',
+        url: process.env.DATABASE_URL,
         logging: !__prod__,
         synchronize: !__prod__,
         entities: [Wish, Food, House],
@@ -34,11 +37,19 @@ const main = async () => {
     const redisClient = redis.createClient();
 
     app.use(
+        cors({
+            origin: process.env.CORS_ORIGIN,
+            credentials: true,
+        }),
+    );
+
+    app.use(
         session({
             name: cookieName,
             store: new RedisStore({
                 client: redisClient,
                 disableTouch: true,
+                url: process.env.REDIS_URL,
             }),
             cookie: {
                 httpOnly: true,
@@ -47,7 +58,7 @@ const main = async () => {
                 secure: false // only set to true if i have a domain for my backend (and ssl)
             },
             saveUninitialized: false,
-            secret: 'cat',
+            secret: process.env.SESSION_SECRET,
             resave: false,
         })
     );
@@ -67,7 +78,7 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app });
 
-    app.listen(port, () => console.log('The delicious-server ready at http://localhost:' + port.toString().split('0').join('🍏')));
+    app.listen(parseInt(process.env.PORT), () => console.log('The delicious-server ready at http://localhost:' + port.toString().split('0').join('🍏')));
 };
 
 main()
