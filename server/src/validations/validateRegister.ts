@@ -1,4 +1,4 @@
-import { FieldError } from "../types/responses/errors/FieldError";
+import { FieldError } from "../types/errors/FieldError";
 import { RegisterInput } from "../types/inputs/RegisterInput";
 
 export const validateRegister = (input: RegisterInput): FieldError | undefined => {

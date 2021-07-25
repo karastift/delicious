@@ -1,6 +1,6 @@
 import { House } from "../../entities/House";
 import { ObjectType, Field } from "type-graphql";
-import { FieldError } from "./errors/FieldError";
+import { FieldError } from "../errors/FieldError";
 
 @ObjectType()
 export class HouseResponse {

@@ -1,6 +1,6 @@
 import { Food } from "../../entities/Food";
 import { Field, ObjectType } from "type-graphql";
-import { FieldError } from "./errors/FieldError";
+import { FieldError } from "../errors/FieldError";
 
 @ObjectType()
 export class FoodResponse {
