@@ -10,7 +10,10 @@ import { Food } from '../entities/Food';
 import { Wish } from '../entities/Wish';
 import { UpdateHouseInput } from '../types/inputs/UpdateHouseInput';
 import { isAuthenticated } from '../middleware/isAuthenticated';
-import { houseNameDuplicate, houseNotFoundById, houseNotFoundByName, houseToUpdateNotFound, incorrectPassword } from '../messages/houseMessages';
+import { HouseNotFoundByNameError } from '../errors/houseErrors/HouseNotFoundByNameError';
+import { HouseNotFoundByIdError } from '../errors/houseErrors/HouseNotFoundByIdError';
+import { HouseNameDuplicateError } from '../errors/houseErrors/HouseNameDuplicateError';
+import { IncorrectPasswordError } from '../errors/houseErrors/IncorrectPasswordError';
 
 @Resolver(House)
 export class HouseResolver {
@@ -38,12 +41,7 @@ export class HouseResolver {
         @Arg('houseName', () => String) houseName: string,
     ): Promise<HouseResponse> {
         const house = await House.findOne({ where: { name: houseName } });
-        if (!house) return {
-            error: {
-                field: 'houseName',
-                message: houseNotFoundByName,
-            },
-        };
+        if (!house) return { error: HouseNotFoundByNameError };
 
         return { house };
     }
@@ -70,12 +68,8 @@ export class HouseResolver {
         @Arg('id') id: number,
     ): Promise<HouseResponse> {
         const house = await House.findOne({ where: { id } });
-        if (!house) return {
-            error: {
-                field: 'id',
-                message: houseNotFoundById,
-            }
-        };
+        if (!house) return { error: HouseNotFoundByIdError };
+
         return { house };
     }
 
@@ -99,12 +93,7 @@ export class HouseResolver {
             }).save();
         }
         catch (err) {
-            return {
-                error: {
-                    field: 'houseName',
-                    message: houseNameDuplicate,
-                },
-            };
+            return { error: HouseNameDuplicateError };
         }
 
         req.session.houseId = house.id;
@@ -120,12 +109,8 @@ export class HouseResolver {
     ): Promise<HouseResponse> {
 
         const count = await House.count({ where: { id: req.session.houseId } });
-        if (!count) return {
-            error: {
-                field: 'houseName',
-                message: houseToUpdateNotFound,
-            },
-        };
+        if (!count) return { error: HouseNotFoundByIdError };
+        
         try {
             await House.update({ id: req.session.houseId }, {
                 name: input.houseName,
@@ -134,12 +119,7 @@ export class HouseResolver {
             return { house: await House.findOne(req.session.houseId) };
         }
         catch {
-            return {
-                error: {
-                    field: 'houseName',
-                    message: houseNameDuplicate,
-                }
-            };
+            return { error: HouseNameDuplicateError };
         }
     }
 
@@ -165,21 +145,11 @@ export class HouseResolver {
         
         const house = await House.findOne({ where: { name: input.houseName } });
 
-        if (!house) return {
-            error: {
-                field: 'houseName',
-                message: houseNotFoundByName,
-            },
-        };
+        if (!house) return { error: HouseNotFoundByNameError };
 
         const isPasswordValid = await argon2.verify(house.password, input.password);
 
-        if (!isPasswordValid) return {
-            error: {
-                field: 'password',
-                message: incorrectPassword,
-            },
-        };
+        if (!isPasswordValid) return { error: IncorrectPasswordError };
 
         req.session.houseId = house.id;
 
