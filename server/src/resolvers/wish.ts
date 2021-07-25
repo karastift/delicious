@@ -13,6 +13,7 @@ import { WishInput } from '../types/inputs/WishInput';
 import { validateWish } from '../validations/validateWish';
 import { Food } from '../entities/Food';
 import { FoodNotFoundByIdError } from '../errors/foodErrors/FoodNotFoundByIdError';
+import { UpdateWishInput } from '../types/inputs/UpdateWishInput';
 
 @Resolver(Wish)
 export class WishResolver {
@@ -77,6 +78,31 @@ export class WishResolver {
         }).save();
 
         return { wish };
+    }
+
+    @UseMiddleware(isAuthenticated)
+    @Mutation(() => WishResponse)
+    async updateWish(
+        @Arg('wishInput', () => UpdateWishInput) wishInput: UpdateWishInput,
+        @Ctx() { req }: MyContext,
+    ) {
+        const error = validateWish(wishInput);
+        if (error) return error;
+
+        const wishCount = await Wish.count({ where: { id: wishInput.wishId, houseId: req.session.houseId } });
+        if (!wishCount) return { error: WishNotFoundByIdError };
+
+        const food = await Food.count({ where: { id: wishInput.foodId } });
+        if (!food) return { error: FoodNotFoundByIdError };
+
+        const { wishId, ...updateInput } = wishInput;
+
+        await Wish.update(
+            { id: wishInput.wishId, houseId: req.session.houseId },
+            { ...updateInput },
+        );
+
+        return { wish: await Wish.findOne(wishId) };
     }
 
     @UseMiddleware(isAuthenticated)
