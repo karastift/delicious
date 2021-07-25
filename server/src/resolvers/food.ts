@@ -8,7 +8,7 @@ import { MyContext } from '../types/MyContext';
 import { FoodInput } from '../types/inputs/FoodInput';
 import { validateFood } from '../validations/validateFood';
 import { UpdateFoodInput } from '../types/inputs/UpdateFoodInput';
-import { duplicateFood, foodNotFoundById, foodToUpdateNotFound, houseNotFound, privateHouse } from '../messages/foodMessages';
+import { duplicateFood, foodNotFoundById, foodNotFoundByName, foodToUpdateNotFound, houseNotFound, privateHouse } from '../messages/foodMessages';
 
 @Resolver(Food)
 export class FoodResolver {
@@ -36,7 +36,7 @@ export class FoodResolver {
         if (!food) return {
             error: {
                 field: 'foodId',
-                message: 'There is no food with that id.',
+                message: foodNotFoundById,
             }
         };
         return { food };
@@ -51,7 +51,7 @@ export class FoodResolver {
         if (!foods.length) return {
             error: {
                 field: 'foodName',
-                message: foodNotFoundById,
+                message: foodNotFoundByName,
             },
         };
 
