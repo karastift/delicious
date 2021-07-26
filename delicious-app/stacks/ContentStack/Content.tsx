@@ -3,6 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Whiteboard } from './screens/Whiteboard';
 import { Kitchen } from './screens/Kitchen';
 import { HouseManagement } from './screens/HouseManagement';
+import { ContentTabBarOptions } from '../../navigationOptions/ContentTabBarOptions';
+import { WhiteboardScreenOptions } from '../../navigationOptions/WhiteboardScreenOptions';
+import { HouseManagementScreenOptions } from '../../navigationOptions/HouseManagementScreenOptions';
+import { KitchenScreenOptions } from '../../navigationOptions/KitchenScreenOptions';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,10 +19,10 @@ export const Content = () => {
   */
 
   return (
-    <Tab.Navigator>
-      <Tab.Screen name='Whiteboard' component={Whiteboard}/>
-      <Tab.Screen name='Kitchen' component={Kitchen}/>
-      <Tab.Screen name='House Management' component={HouseManagement}/>
+    <Tab.Navigator tabBarOptions={ContentTabBarOptions}>
+      <Tab.Screen name='Whiteboard' component={Whiteboard} options={WhiteboardScreenOptions}/>
+      <Tab.Screen name='Kitchen' component={Kitchen} options={KitchenScreenOptions}/>
+      <Tab.Screen name='House Management' component={HouseManagement} options={HouseManagementScreenOptions}/>
     </Tab.Navigator>
   );
 };
