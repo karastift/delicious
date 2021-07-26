@@ -3,7 +3,9 @@ import { ViewStyle } from "react-native";
 export const colors = {
   background: 'white',
   text: 'black',
-  highlighted: 'lightgreen',
+  highlighted: 'rgb(0, 200, 0)',
+  darkHiglighted: 'rgb(0, 180, 0),',
+  lighterText: 'grey',
 };
 
 export const defaultContainerStyles: ViewStyle = {

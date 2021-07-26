@@ -23,13 +23,13 @@ const client = new ApolloClient({
 
 const RootComponent = () => {
 
-  const { data } = useMyHouseQuery();
-  const [authenticated, setAuthenticated] = useState(false);
+  // const { data } = useMyHouseQuery();
+  const [authenticated, setAuthenticated] = useState(true);
 
-  useEffect(() => {
-    console.log(data)
-    setAuthenticated(!!data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data)
+  //   setAuthenticated(!!data);
+  // }, [data]);
 
   return (
     <Auth.Provider value={{ setAuthenticated }}>
