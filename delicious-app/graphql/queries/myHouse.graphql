@@ -1,0 +1,9 @@
+query myHouse{
+  myHouse {
+    house {
+      id
+      name
+      private
+    }
+  }
+}
