@@ -5,10 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import { Content } from './stacks/ContentStack/Content';
 import { LoginStack } from './stacks/LoginStack/LoginStack';
-import { useMyHouseQuery } from './generated/graphql';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { ContentScreenOptions } from './navigationOptions/ContentScreenOptions';
+import { Provider as PaperProvider} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Feather';
 
 const RootStack = createStackNavigator();
 const Auth = createContext({
@@ -49,7 +49,13 @@ const App = () => {
   
   return (
     <ApolloProvider client={client}>
-      <RootComponent/>
+      <PaperProvider
+        settings={{
+          icon: props => <Icon {...props} />,
+        }}
+      >
+        <RootComponent/>
+      </PaperProvider>
     </ApolloProvider>
   );
 };
