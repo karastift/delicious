@@ -6,6 +6,7 @@ export const colors = {
   highlighted: 'rgb(0, 200, 0)',
   darkHiglighted: 'rgb(0, 180, 0),',
   lighterText: 'grey',
+  oppositeText: 'red',
 };
 
 export const defaultContainerStyles: ViewStyle = {
