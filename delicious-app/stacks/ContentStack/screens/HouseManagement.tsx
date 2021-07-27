@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, View, Text, Dimensions, StyleSheet } from 'react-native';
 import { FloatingButton } from '../../../components/FloatingButton';
-import { FoodSnippet } from '../../../components/FoodSnippet';
 import { defaultContainerStyles } from '../../../themes/Lighttheme';
 
 export const HouseManagement = () => {
