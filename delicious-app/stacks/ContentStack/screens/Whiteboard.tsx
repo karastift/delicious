@@ -1,31 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { FloatingButton } from '../../../components/FloatingButton';
 import { PendingWishSnippet } from '../../../components/PendingWishSnippet';
 import { WishSnippet } from '../../../components/WishSnippet';
 import { Wish } from '../../../generated/graphql';
-import { colors, defaultContainerStyles } from '../../../themes/Lighttheme';
-import { beautifyDate } from '../../../utils/beautifyDate';
-
-const FloatingButton = () => {
-
-  return (
-    <FAB
-      style={{
-        zIndex: 1,
-        position: 'absolute',
-        margin: 16,
-        right: 0,
-        bottom: 0,
-        backgroundColor: colors.highlighted,
-      }}
-      color={colors.background}
-      icon="plus"
-      onPress={() => console.log('pressed create button')}
-      onLongPress={() => console.log('longpressed create button')}
-    />
-  );
-};
+import { defaultContainerStyles } from '../../../themes/Lighttheme';
 
 export const Whiteboard = () => {
 
@@ -49,7 +28,7 @@ export const Whiteboard = () => {
   // nest scrollview
   return (
     <View style={defaultContainerStyles}>
-      <FloatingButton />
+      <FloatingButton/>
       <ScrollView contentContainerStyle={defaultContainerStyles} style={{flex: 1}}>
         {/* all new wishes */}
         <View style={styles.wishesUpdates}>
