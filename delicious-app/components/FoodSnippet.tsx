@@ -1,22 +1,21 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { colors } from '../themes/Lighttheme';
-import { beautifyTime } from '../utils/beautifyTime';
 
-export const PendingWishSnippet = (props: {
+export const FoodSnippet = (props: {
   foodName: string;
-  time: string;
-  suggestingMember: string;
-  assignedMember: string;
+  description?: string;
+  creator: string;
+  recipeLink?: string;
   onPress: () => void;
 }) => {
 
   return (
     <TouchableOpacity style={styles.wishWrapper}>
       <Text style={styles.foodText}>{props.foodName}:</Text>
-      <Text style={styles.dateText}>{beautifyTime(props.time)}</Text>
-      <Text style={styles.memberText}><Text style={styles.highlightedText}>{props.suggestingMember}</Text> suggested this,</Text>
-      <Text style={styles.memberText}>assigned to <Text style={styles.highlightedText}>{props.assignedMember}</Text></Text>
+      <Text style={styles.dateText}>{props.description}</Text>
+      <Text style={styles.memberText}><Text style={styles.highlightedText}>{props.creator}</Text> created this</Text>
+      <Text style={styles.memberText}>link to recipe: <Text style={styles.highlightedText} onPress={() => Linking.openURL(props.recipeLink!)}>{props.recipeLink}</Text></Text>
     </TouchableOpacity>
   );
 };

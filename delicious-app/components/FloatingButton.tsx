@@ -2,7 +2,11 @@ import React from "react";
 import { FAB } from "react-native-paper";
 import { colors } from "../themes/Lighttheme";
 
-export const FloatingButton = () => {
+export const FloatingButton = (props: {
+  name: string;
+  onPress: () => void;
+  onPressLong?: () => void
+}) => {
 
   return (
     <FAB
@@ -15,9 +19,9 @@ export const FloatingButton = () => {
         backgroundColor: colors.highlighted,
       }}
       color={colors.background}
-      icon="plus"
-      onPress={() => console.log('pressed create button')}
-      onLongPress={() => console.log('longpressed create button')}
+      icon={props.name}
+      onPress={props.onPress}
+      onLongPress={props.onPressLong}
     />
   );
 };
