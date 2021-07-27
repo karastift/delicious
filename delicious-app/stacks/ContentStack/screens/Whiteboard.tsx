@@ -25,7 +25,7 @@ export const Whiteboard = () => {
       name: 'simpsons',
     },
   } as any;
-  // nest scrollview
+  
   return (
     <View style={defaultContainerStyles}>
       <FloatingButton/>
