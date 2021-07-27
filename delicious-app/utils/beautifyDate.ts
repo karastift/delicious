@@ -1,7 +1,10 @@
-export const beautfiyDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const utcString = date.toUTCString();
-  let beautiful = utcString.substring(0, utcString.length - 4);
+const days = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(' ');
 
-  return beautiful;
+export const beautifyDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const day = days[date.getDay() - 1];
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  return day + ' ' + hours + ':' + (minutes === 0 ? '00' : minutes);
 };
