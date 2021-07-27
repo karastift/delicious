@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../themes/Lighttheme';
 import { beautifyDate } from '../utils/beautifyDate';
+import { beautifyTime } from '../utils/beautifyTime';
 
-export const WishSnippet = (props: {
+export const PendingWishSnippet = (props: {
   foodName: string;
   time: string;
   suggestingMember: string;
@@ -14,7 +15,7 @@ export const WishSnippet = (props: {
   return (
     <TouchableOpacity style={styles.wishWrapper}>
       <Text style={styles.foodText}>{props.foodName}:</Text>
-      <Text style={styles.dateText}>{beautifyDate(props.time)}</Text>
+      <Text style={styles.dateText}>{beautifyTime(props.time)}</Text>
       <Text style={styles.memberText}><Text style={styles.highlightedText}>{props.suggestingMember}</Text> suggested this,</Text>
       <Text style={styles.memberText}>assigned to <Text style={styles.highlightedText}>{props.assignedMember}</Text></Text>
     </TouchableOpacity>

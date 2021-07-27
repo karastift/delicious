@@ -1,9 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { FAB } from 'react-native-paper';
+import { PendingWishSnippet } from '../../../components/PendingWishSnippet';
 import { WishSnippet } from '../../../components/WishSnippet';
 import { Wish } from '../../../generated/graphql';
-import { defaultContainerStyles } from '../../../themes/Lighttheme';
-import { beautfiyDate } from '../../../utils/beautifyDate';
+import { colors, defaultContainerStyles } from '../../../themes/Lighttheme';
+import { beautifyDate } from '../../../utils/beautifyDate';
+
+const FloatingButton = () => {
+
+  return (
+    <FAB
+      style={{
+        zIndex: 1,
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        backgroundColor: colors.highlighted,
+      }}
+      color={colors.background}
+      icon="plus"
+      onPress={() => console.log('pressed create button')}
+      onLongPress={() => console.log('longpressed create button')}
+    />
+  );
+};
 
 export const Whiteboard = () => {
 
@@ -24,26 +46,83 @@ export const Whiteboard = () => {
       name: 'simpsons',
     },
   } as any;
-
+  // nest scrollview
   return (
     <View style={defaultContainerStyles}>
-      {/* all new wishes */}
-      <View style={styles.wishesUpdates}>
-        <Text style={styles.headers}>new wishes:</Text>
-        <ScrollView contentContainerStyle={styles.wishesScrollView}>
-          <WishSnippet
-            foodName={exampleWish.food.foodName}
-            assignedMember={'Kian'}
-            suggestingMember={'Kristin'}
-            time={beautfiyDate(exampleWish.time)}
-          />
-        </ScrollView>
-      </View>
+      <FloatingButton />
+      <ScrollView contentContainerStyle={defaultContainerStyles} style={{flex: 1}}>
+        {/* all new wishes */}
+        <View style={styles.wishesUpdates}>
+          <Text style={styles.headers}>today:</Text>
+          <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
+            <PendingWishSnippet
+              foodName={exampleWish.food.foodName}
+              assignedMember={'Kian'}
+              suggestingMember={'Kristin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+            <PendingWishSnippet
+              foodName={exampleWish.food.foodName}
+              assignedMember={'Kian'}
+              suggestingMember={'Kristin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+            <PendingWishSnippet
+              foodName={exampleWish.food.foodName}
+              assignedMember={'Kian'}
+              suggestingMember={'Kristin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+          </ScrollView>
+        </View>
+
+        <View style={styles.wishesUpdates}>
+          <Text style={styles.headers}>week:</Text>
+          <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
+            <WishSnippet
+              foodName={exampleWish.food.foodName}
+              assignedMember={'Kian'}
+              suggestingMember={'Kristin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+
+            <WishSnippet
+              foodName={'Nudeln mit Tomatensoße'}
+              assignedMember={'Ertan'}
+              suggestingMember={'Arin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+
+            <WishSnippet
+              foodName={'Nudeln mit Tomatensoße'}
+              assignedMember={'Ertan'}
+              suggestingMember={'Arin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+            
+            <WishSnippet
+              foodName={'Nudeln mit Tomatensoße'}
+              assignedMember={'Ertan'}
+              suggestingMember={'Arin'}
+              time={exampleWish.time}
+              onPress={() => null}
+            />
+          </ScrollView>
+        </View>
+      </ScrollView>
     </View>
   );
 };
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   wishesUpdates: {
     marginTop: 20,
@@ -56,7 +135,9 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   wishesScrollView: {
+    marginTop: 5,
     paddingVertical: 10,
     paddingHorizontal: 30,
+    maxHeight: windowHeight / 3,
   },
 });
