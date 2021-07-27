@@ -1,8 +1,9 @@
 import React from 'react';
 import { ScrollView, View, Text, Dimensions, StyleSheet } from 'react-native';
 import { FloatingButton } from '../../../components/FloatingButton';
-import { defaultContainerStyles } from '../../../themes/Lighttheme';
-
+import { House } from '../../../generated/graphql';
+import { colors, defaultContainerStyles } from '../../../themes/Lighttheme';
+let a: House;
 export const HouseManagement = () => {
 
   return (
@@ -10,7 +11,7 @@ export const HouseManagement = () => {
       <FloatingButton name='edit-3' onPress={() => null}/>
       <ScrollView contentContainerStyle={defaultContainerStyles} style={{flex: 1}}>
         <View style={styles.wishesUpdates}>
-          <Text style={styles.headers}>my house:</Text>
+          <Text style={styles.headers}>simpsons (<Text style={{ color: colors.oppositeText }}>closed</Text>):</Text>
         </View>
       </ScrollView>
     </View>
