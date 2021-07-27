@@ -28,7 +28,7 @@ export const Whiteboard = () => {
   
   return (
     <View style={defaultContainerStyles}>
-      <FloatingButton/>
+      <FloatingButton name='plus' onPress={() => null}/>
       <ScrollView contentContainerStyle={defaultContainerStyles} style={{flex: 1}}>
         {/* all new wishes */}
         <View style={styles.wishesUpdates}>
