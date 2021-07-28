@@ -1,12 +1,10 @@
 import React from 'react';
 import { ScrollView, View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { FloatingButton } from '../../../components/FloatingButton';
-import { House } from '../../../generated/graphql';
 import { colors, defaultContainerStyles } from '../../../themes/Lighttheme';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-let a: House;
 
 const MemberBlock = () => {
 
@@ -27,7 +25,7 @@ const MemberBlock = () => {
   );
 };
 
-export const HouseManagement = () => {
+export const House = () => {
 
   return (
     <View style={defaultContainerStyles}>
