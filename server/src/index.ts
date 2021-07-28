@@ -17,6 +17,8 @@ import connectRedis from 'connect-redis';
 import { MyContext } from './types/MyContext';
 import cors from 'cors';
 import { WishResolver } from './resolvers/wish';
+import { Member } from './entities/Member';
+import { MemberResolver } from './resolvers/member';
 
 const main = async () => {
 
@@ -25,7 +27,7 @@ const main = async () => {
         url: process.env.DATABASE_URL,
         logging: true,
         synchronize: true,
-        entities: [Wish, Food, House],
+        entities: [Wish, Food, House, Member],
     });
 
     const app = express();
@@ -64,7 +66,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver, WishResolver],
+            resolvers: [ChickenNuggetsResolver, FoodResolver, HouseResolver, WishResolver, MemberResolver],
             validate: false,
         }),
         context: ({ req, res }): MyContext => ({ req, res }),

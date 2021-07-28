@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import { Entity, BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { House } from "./House";
+import { Member } from "./Member";
 import { Wish } from "./Wish";
 
 @ObjectType()
@@ -13,7 +14,7 @@ export class Food extends BaseEntity {
 
     @Field(() => String)
     @Column()
-    foodName!: string;
+    foodName: string;
 
     @Field(() => String, { nullable: true })
     @Column()
@@ -25,6 +26,10 @@ export class Food extends BaseEntity {
 
     @OneToMany(() => Wish, (wish) => wish.food)
     wishes: Wish[];
+
+    @Field(() => Member)
+    @ManyToOne(() => Member, (member) => member.food)
+    creator: Member;
 
     @Column()
     houseId: number;
