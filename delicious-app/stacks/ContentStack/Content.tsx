@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Whiteboard } from './screens/Whiteboard';
 import { Kitchen } from './screens/Kitchen';
-import { House } from './screens/HouseManagement';
+import { House } from './screens/House';
 import { ContentTabBarOptions } from '../../navigationOptions/ContentTabBarOptions';
 import { WhiteboardScreenOptions } from '../../navigationOptions/WhiteboardScreenOptions';
 import { HouseScreenOptions } from '../../navigationOptions/HouseManagementScreenOptions';
