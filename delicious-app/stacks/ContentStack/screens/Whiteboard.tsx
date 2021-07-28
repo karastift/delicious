@@ -30,11 +30,11 @@ export const Whiteboard = () => {
   return (
     <View style={defaultContainerStyles}>
       <FloatingButton name='plus' onPress={() => null}/>
-      <ScrollView contentContainerStyle={defaultContainerStyles} style={{flex: 1}}>
+      <ScrollView style={styles.scrollView}>
         {/* all new wishes */}
         <View style={styles.wishesUpdates}>
           <Text style={styles.headers}>today:</Text>
-          <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
+          <View style={styles.wishesView}>
             <NewWishSnippet
               foodName={exampleWish.food.foodName}
               assignedMember={'Kian'}
@@ -59,12 +59,12 @@ export const Whiteboard = () => {
               pending
               onPress={() => null}
             />
-          </ScrollView>
+          </View>
         </View>
 
         <View style={styles.wishesUpdates}>
           <Text style={styles.headers}>week:</Text>
-          <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
+          <View style={styles.wishesView}>
             <NewWishSnippet
               foodName={exampleWish.food.foodName}
               assignedMember={'Kian'}
@@ -96,7 +96,7 @@ export const Whiteboard = () => {
               time={exampleWish.time}
               onPress={() => null}
             />
-          </ScrollView>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -107,6 +107,9 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+  },
   wishesUpdates: {
     marginTop: 20,
     width: windowWidth,
@@ -117,10 +120,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginLeft: 15,
   },
-  wishesScrollView: {
+  wishesView: {
     marginTop: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    maxHeight: windowHeight / 2.9,
   },
 });
