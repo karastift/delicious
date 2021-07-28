@@ -1,30 +1,32 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../themes/Lighttheme';
+import { beautifyDate } from '../utils/beautifyDate';
+import { beautifyTime } from '../utils/beautifyTime';
 
-export const MemberBlock = (props: {
-  name: string;
-  role: 'child' | 'adult';
-  foodMade: number;
+export const NewWishSnippet = (props: {
+  foodName: string;
+  time: string;
+  pending?: boolean;
+  suggestingMember: string;
+  assignedMember: string;
+  onPress: () => void;
 }) => {
 
   return (
     <TouchableOpacity style={styles.memberBlockWrapper}>
-      {props.role === 'child'
-      ? <FontAwesomeIcon name='child' size={55} style={styles.icon}/>
-      : <FontAwesomeIcon name='user' size={50} style={[styles.icon, { marginLeft: 3 }]}/>
-      }
-      <View style={styles.categoryWrapper}>
+      <FontAwesomeIcon name='apple-alt' size={50} style={styles.icon}/>
+      {/* <View style={styles.categoryWrapper}>
         <Text style={styles.categoryText}>name:</Text>
         <Text style={styles.categoryText}>role:</Text>
         <Text style={styles.categoryText}>food made:</Text>
-      </View>
+      </View> */}
       <View style={styles.infoWrapper}>
-        <Text style={styles.infoText}>{props.name}</Text>
-        <Text style={styles.infoText}>{props.role}</Text>
-        <Text style={styles.infoText}>{props.foodMade}</Text>
+        <Text style={styles.highlightedText}>{props.foodName}</Text>
+        <Text style={styles.text}>{props.pending ? beautifyTime(props.time) : beautifyDate(props.time)}</Text>
+        <Text style={styles.text}><Text style={styles.highlightedText}>{props.suggestingMember}</Text> suggested this,</Text>
+        <Text style={styles.text}>assigned to <Text style={styles.highlightedText}>{props.suggestingMember}</Text></Text>
       </View>
     </TouchableOpacity>
   );
@@ -35,7 +37,6 @@ const styles = StyleSheet.create({
     height: 100,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 30,
     paddingVertical: 15,
     marginBottom: 20,
@@ -48,18 +49,14 @@ const styles = StyleSheet.create({
   infoWrapper: {
     marginLeft: 20,
     justifyContent: 'space-evenly',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
-  categoryWrapper: {
-    marginLeft: 20,
-    justifyContent: 'space-evenly',
-  },
-  categoryText: {
+  text: {
     fontWeight: '800',
     fontSize: 17,
     color: colors.text,
   },
-  infoText: {
+  highlightedText: {
     fontWeight: '800',
     fontSize: 17,
     color: colors.highlighted,
