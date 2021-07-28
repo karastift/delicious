@@ -121,6 +121,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    maxHeight: windowHeight / 3,
+    maxHeight: windowHeight / 2.8,
   },
 });
