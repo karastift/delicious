@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, View, Text, Dimensions, StyleSheet } from 'react-native';
 import { FloatingButton } from '../../../components/FloatingButton';
 import { FoodSnippet } from '../../../components/FoodSnippet';
+import { NewFoodSnippet } from '../../../components/NewFoodSnippet';
 import { defaultContainerStyles } from '../../../themes/Lighttheme';
 
 export const Kitchen = () => {
@@ -14,21 +15,21 @@ export const Kitchen = () => {
         <View style={styles.wishesUpdates}>
           <Text style={styles.headers}>food collection:</Text>
           <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
-            <FoodSnippet
+            <NewFoodSnippet
               foodName={'Steak'}
               description={'Sehr blutig und kein Schwein.'}
               recipeLink={'https://steak.com'}
               creator={'Ertan'}
               onPress={() => null}
             />
-            <FoodSnippet
+            <NewFoodSnippet
               foodName={'Steak'}
               description={'Sehr blutig und kein Schwein.'}
               recipeLink={'https://steak.com'}
               creator={'Ertan'}
               onPress={() => null}
             />
-            <FoodSnippet
+            <NewFoodSnippet
               foodName={'Steak'}
               description={'Sehr blutig und kein Schwein.'}
               recipeLink={'https://steak.com'}
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   wishesScrollView: {
     marginTop: 5,
     paddingVertical: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     maxHeight: windowHeight,
   },
 });
