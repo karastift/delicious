@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingVertical: 10,
     paddingHorizontal: 30,
-    maxHeight: windowHeight ,
+    maxHeight: windowHeight,
   },
 });
