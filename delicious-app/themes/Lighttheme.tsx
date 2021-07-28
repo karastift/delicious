@@ -6,6 +6,7 @@ export const colors = {
   highlighted: 'rgb(0, 200, 0)',
   darkHiglighted: 'rgb(0, 180, 0),',
   lighterText: 'grey',
+  evenLighterText: 'rgba(0,0,0,0.1)',
   oppositeText: 'red',
 };
 
