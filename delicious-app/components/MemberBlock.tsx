@@ -17,9 +17,9 @@ export const MemberBlock = (props: {
       : <FontAwesomeIcon name='user' size={50} style={[styles.icon, { marginLeft: 3 }]}/>
       }
       <View style={styles.categoryWrapper}>
-        <Text style={styles.infoText}>name:</Text>
-        <Text style={styles.infoText}>role:</Text>
-        <Text style={styles.infoText}>food made:</Text>
+        <Text style={styles.categoryText}>name:</Text>
+        <Text style={styles.categoryText}>role:</Text>
+        <Text style={styles.categoryText}>food made:</Text>
       </View>
       <View style={styles.infoWrapper}>
         <Text style={styles.infoText}>{props.name}</Text>
