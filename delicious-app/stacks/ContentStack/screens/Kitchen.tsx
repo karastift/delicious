@@ -31,9 +31,9 @@ export const Kitchen = () => {
             />
             <NewFoodSnippet
               foodName={'Steak'}
-              description={'Sehr blutig und kein Schwein.'}
+              description={'Sehr blutig und kein Schwein. Aber bitte mit Sahne. Und ohne Fett.'}
               recipeLink={'https://steak.com'}
-              creator={'Ertan'}
+              creator={'Somos'}
               onPress={() => null}
             />
           </ScrollView>

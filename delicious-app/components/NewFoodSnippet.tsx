@@ -19,7 +19,7 @@ export const NewFoodSnippet = (props: {
       <View style={styles.infoWrapper}>
         <Text style={styles.highlightedText}>{props.foodName}</Text>
         <Text style={styles.text}>{props.description}</Text>
-        <Text style={styles.text}>created by <Text style={styles.highlightedText}>{props.creator}</Text></Text>
+        <Text style={styles.text}><Text style={styles.highlightedText}>{props.creator}{props.creator[props.creator.length-1] !== 's' ? "'s" : "'"}</Text> creation</Text>
         {props.recipeLink ? <Text style={styles.text} onPress={() => Linking.openURL(props.recipeLink!)}><Text style={styles.highlightedText}>{props.recipeLink}</Text></Text> : <></>}
       </View>
     </TouchableOpacity>
@@ -28,8 +28,8 @@ export const NewFoodSnippet = (props: {
 
 const styles = StyleSheet.create({
   memberBlockWrapper: {
-    height: 100,
-    flexWrap: 'wrap',
+    // height: 100,
+    // flexWrap: 'wrap',
     flexDirection: 'row',
     paddingHorizontal: 30,
     paddingVertical: 15,
@@ -41,11 +41,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   infoWrapper: {
+    paddingRight: 10,
     marginLeft: 20,
     justifyContent: 'space-evenly',
     alignItems: 'flex-start',
   },
   text: {
+    paddingRight: 10,
     fontWeight: '800',
     fontSize: 17,
     color: colors.text,
