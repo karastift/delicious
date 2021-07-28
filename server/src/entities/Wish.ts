@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BaseEntity, M
 import { Field, Int, ObjectType } from "type-graphql";
 import { House } from "./House";
 import { Food } from "./Food";
+import { Member } from "./Member";
 
 @ObjectType()
 @Entity()
@@ -13,8 +14,16 @@ export class Wish extends BaseEntity {
 
     @Field(() => Int)
     @Column()
-    foodId!: number;
+    foodId: number;
     
+    @Field(() => Member)
+    @ManyToOne(() => Member, (member) => member.wishes)
+    suggester: Member;
+
+    @Field(() => Member)
+    @ManyToOne(() => Member, (member) => member.assignedWishes)
+    assigned: Member;
+
     @Field(() => Food)
     @ManyToOne(() => Food, (food) => food.wishes)
     food: Food;
@@ -29,7 +38,7 @@ export class Wish extends BaseEntity {
 
     @Field(() => String)
     @Column('timestamp', { name: 'time' })
-    time!: Date;
+    time: Date;
 
     @Field(() => String)
     @CreateDateColumn()

@@ -14,6 +14,7 @@ import { HouseNotFoundByNameError } from '../errors/houseErrors/HouseNotFoundByN
 import { HouseNotFoundByIdError } from '../errors/houseErrors/HouseNotFoundByIdError';
 import { HouseNameDuplicateError } from '../errors/houseErrors/HouseNameDuplicateError';
 import { IncorrectPasswordError } from '../errors/houseErrors/IncorrectPasswordError';
+import { Member } from 'src/entities/Member';
 
 @Resolver(House)
 export class HouseResolver {
@@ -34,6 +35,13 @@ export class HouseResolver {
     ): Promise<Wish[] | undefined> | undefined {
         if (!house.private || req.session.houseId === house.id) return Wish.find({ where: { houseId: house.id } }); // createFoodLoader like UserLoader in socialschoo
         return undefined;
+    }
+
+    @FieldResolver(() => [Member])
+    members(
+        @Root() { id: houseId }: House,
+    ): Promise<Member[]> {
+        return Member.find({ where: { houseId } });
     }
 
     @Query(() => HouseResponse)
