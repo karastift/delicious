@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingLeft: 10,
     marginBottom: 20,
+    backgroundColor: colors.evenLighterText,
+    borderRadius: 25,
+    padding: 10,
   },
   foodText: {
     color: colors.highlighted,

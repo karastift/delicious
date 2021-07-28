@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { FloatingButton } from '../../../components/FloatingButton';
-import { PendingWishSnippet } from '../../../components/PendingWishSnippet';
-import { WishSnippet } from '../../../components/WishSnippet';
+// import { PendingWishSnippet } from '../../../components/PendingWishSnippet';
+// import { WishSnippet } from '../../../components/WishSnippet';
+import { NewWishSnippet } from '../../../components/NewWishSnippet';
 import { Wish } from '../../../generated/graphql';
 import { defaultContainerStyles } from '../../../themes/Lighttheme';
 
@@ -34,25 +35,28 @@ export const Whiteboard = () => {
         <View style={styles.wishesUpdates}>
           <Text style={styles.headers}>today:</Text>
           <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
-            <PendingWishSnippet
+            <NewWishSnippet
               foodName={exampleWish.food.foodName}
               assignedMember={'Kian'}
               suggestingMember={'Kristin'}
               time={exampleWish.time}
+              pending
               onPress={() => null}
             />
-            <PendingWishSnippet
+            <NewWishSnippet
               foodName={exampleWish.food.foodName}
               assignedMember={'Kian'}
               suggestingMember={'Kristin'}
               time={exampleWish.time}
+              pending
               onPress={() => null}
             />
-            <PendingWishSnippet
+            <NewWishSnippet
               foodName={exampleWish.food.foodName}
               assignedMember={'Kian'}
               suggestingMember={'Kristin'}
               time={exampleWish.time}
+              pending
               onPress={() => null}
             />
           </ScrollView>
@@ -61,7 +65,7 @@ export const Whiteboard = () => {
         <View style={styles.wishesUpdates}>
           <Text style={styles.headers}>week:</Text>
           <ScrollView style={styles.wishesScrollView} nestedScrollEnabled={true}>
-            <WishSnippet
+            <NewWishSnippet
               foodName={exampleWish.food.foodName}
               assignedMember={'Kian'}
               suggestingMember={'Kristin'}
@@ -69,7 +73,7 @@ export const Whiteboard = () => {
               onPress={() => null}
             />
 
-            <WishSnippet
+            <NewWishSnippet
               foodName={'Nudeln mit Tomatensoße'}
               assignedMember={'Ertan'}
               suggestingMember={'Arin'}
@@ -77,7 +81,7 @@ export const Whiteboard = () => {
               onPress={() => null}
             />
 
-            <WishSnippet
+            <NewWishSnippet
               foodName={'Nudeln mit Tomatensoße'}
               assignedMember={'Ertan'}
               suggestingMember={'Arin'}
@@ -85,7 +89,7 @@ export const Whiteboard = () => {
               onPress={() => null}
             />
             
-            <WishSnippet
+            <NewWishSnippet
               foodName={'Nudeln mit Tomatensoße'}
               assignedMember={'Ertan'}
               suggestingMember={'Arin'}
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
   wishesScrollView: {
     marginTop: 5,
     paddingVertical: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     maxHeight: windowHeight / 3,
   },
 });

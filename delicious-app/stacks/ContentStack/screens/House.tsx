@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   memberScrollView: {
     marginTop: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingBottom: 30,
     flexDirection: 'column',
     justifyContent: 'space-around',
