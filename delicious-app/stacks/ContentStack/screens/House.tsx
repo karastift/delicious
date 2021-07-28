@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   wishesUpdates: {
     marginTop: 20,
     width: windowWidth,
+    maxHeight: windowHeight / 1.25,
   },
   headers: {
     fontSize: 20,
