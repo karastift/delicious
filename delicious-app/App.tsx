@@ -9,16 +9,11 @@ import { useState } from 'react';
 import { ContentScreenOptions } from './navigationOptions/ContentScreenOptions';
 import { Provider as PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Feather';
+import { client } from './utils/createClient';
 
 const RootStack = createStackNavigator();
 const Auth = createContext({
   setAuthenticated: undefined as unknown,
-});
-
-const client = new ApolloClient({
-  uri: 'http://192.168.178.61:4000/graphql',
-  credentials: 'include',
-  cache: new InMemoryCache(),
 });
 
 const RootComponent = () => {
