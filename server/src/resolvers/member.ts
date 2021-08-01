@@ -63,10 +63,6 @@ export class MemberResolver {
 		};
 	}
 
-
-    // (get member by name and houseId)
-
-
     // get assigned wishes
 
     // get created wishes
