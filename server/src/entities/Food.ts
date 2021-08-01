@@ -27,6 +27,10 @@ export class Food extends BaseEntity {
     @OneToMany(() => Wish, (wish) => wish.food)
     wishes: Wish[];
 
+    @Field(() => Int)
+    @Column()
+    creatorId: number;
+
     @Field(() => Member)
     @ManyToOne(() => Member, (member) => member.food)
     creator: Member;
