@@ -14,7 +14,7 @@ import { HouseNotFoundByNameError } from '../errors/houseErrors/HouseNotFoundByN
 import { HouseNotFoundByIdError } from '../errors/houseErrors/HouseNotFoundByIdError';
 import { HouseNameDuplicateError } from '../errors/houseErrors/HouseNameDuplicateError';
 import { IncorrectPasswordError } from '../errors/houseErrors/IncorrectPasswordError';
-import { Member } from 'src/entities/Member';
+import { Member } from '../entities/Member';
 
 @Resolver(House)
 export class HouseResolver {

@@ -16,8 +16,12 @@ export class Member extends BaseEntity {
   @Column()
   memberName: string;
 
+  @Field(() => String)
+  @Column()
+  role: string;
+
   @Field(() => Int)
-  @Column({ unsigned: true })
+  @Column({ unsigned: true, default: 0 })
   foodMadeCount: number;
   
   @Field(() => [Food], { nullable: true })

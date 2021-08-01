@@ -1,25 +1,73 @@
 import { House } from "../entities/House";
 import { Member } from "../entities/Member";
-import { FieldResolver, Resolver, Root } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
+import { MemberInput } from "../types/inputs/MemberInput";
+import { validateMember } from "../validations/validateMember";
+import { MemberResponse } from "../types/responses/MemberResponse";
+import { MyContext } from "../types/MyContext";
+import { MemberWithSameNameExistsError } from "../errors/memberErrors/MemberWithSameNameExistsError";
+import { MultipleFoodsResponse } from "../types/responses/MultipleFoodsResponse";
+import { MemberNotFoundByIdError } from "../errors/memberErrors/MemberNotFoundError";
+import { PrivateHouseError } from "../errors/houseErrors/PrivateHouseError";
+import { MultipleMembersResponse } from "../types/responses/MultipleMembersResponse";
 
 @Resolver(Member)
 export class MemberResolver {
-  @FieldResolver(() => House)
-  house(
-    @Root() member: Member,
-  ): Promise<House | undefined> {
-    return House.findOne(member.houseId);
-  }
+    @FieldResolver(() => House)
+    house(
+      @Root() member: Member,
+    ): Promise<House | undefined> {
+      return House.findOne(member.houseId);
+    }
 
-  // create member
+	@Query(() => MultipleMembersResponse, { nullable: true })
+	async membersByHouseId(
+		@Arg('houseId', () => Int) houseId: number,
+		@Ctx() { req }: MyContext,
+	): Promise<MultipleMembersResponse | void> {
+		const { members, ...house }: any = await House.findOne(houseId, { relations: ['members'] });
+		if (house.private && house.id !== req.session.houseId) return { error: PrivateHouseError };
 
-  // get member by id
+		return { members };
+	}
 
-  // (get member by name and houseId)
+	@Query(() => MultipleFoodsResponse, { nullable: true } )
+	async getCreatedFood(
+		@Arg('memberId', () => Int) memberId: number,
+		@Ctx() { req }: MyContext,
+	): Promise<MultipleFoodsResponse> {
+		
+		const { house, food: foods, ...member }: any = await Member.findOne(memberId, { relations: ['house', 'food'] });
+		if (!member || !house) return { error: MemberNotFoundByIdError };
+		if (house.private && house.id !== req.session.houseId) return { error: PrivateHouseError };
+		
+		return { foods };
+	}
 
-  // get created food
+	@Mutation(() => MemberResponse)
+	async createMember(
+		@Arg('memberInput') memberInput: MemberInput,
+		@Ctx() { req }: MyContext,
+	): Promise<MemberResponse> {
+		const error = validateMember(memberInput);
+		if (error) return { error };
 
-  // get assigned wishes
+		const existingMember = await Member.findOne({ where: { memberName: memberInput.memberName, houseId: req.session.houseId } });
+		if (existingMember) return { error: MemberWithSameNameExistsError };
 
-  // get created wishes
+		return {
+			member: await Member.create({
+				...memberInput,
+				houseId: req.session.houseId,
+			}).save(),
+		};
+	}
+
+
+    // (get member by name and houseId)
+
+
+    // get assigned wishes
+
+    // get created wishes
 }
