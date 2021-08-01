@@ -27,6 +27,8 @@ export type Food = {
   foodName: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   recipeLink?: Maybe<Scalars['String']>;
+  creatorId: Scalars['Int'];
+  creator: Member;
   house: House;
   createdAt: Scalars['String'];
 };
@@ -48,6 +50,7 @@ export type House = {
   id: Scalars['Int'];
   name: Scalars['String'];
   private: Scalars['Boolean'];
+  members?: Maybe<Array<Member>>;
   wishes?: Maybe<Array<Wish>>;
   foods?: Maybe<Array<Food>>;
   createdAt: Scalars['String'];
@@ -64,9 +67,38 @@ export type LoginInput = {
   password: Scalars['String'];
 };
 
+export type Member = {
+  __typename?: 'Member';
+  id: Scalars['Int'];
+  memberName: Scalars['String'];
+  role: Scalars['String'];
+  foodMadeCount: Scalars['Int'];
+  food?: Maybe<Array<Food>>;
+  wishes?: Maybe<Wish>;
+  assignedWishes?: Maybe<Wish>;
+  house: House;
+};
+
+export type MemberInput = {
+  memberName: Scalars['String'];
+  role: Scalars['String'];
+};
+
+export type MemberResponse = {
+  __typename?: 'MemberResponse';
+  member?: Maybe<Member>;
+  error?: Maybe<FieldError>;
+};
+
 export type MultipleFoodsResponse = {
   __typename?: 'MultipleFoodsResponse';
   foods?: Maybe<Array<Food>>;
+  error?: Maybe<FieldError>;
+};
+
+export type MultipleMembersResponse = {
+  __typename?: 'MultipleMembersResponse';
+  members?: Maybe<Array<Member>>;
   error?: Maybe<FieldError>;
 };
 
@@ -89,6 +121,7 @@ export type Mutation = {
   createWish: WishResponse;
   updateWish: WishResponse;
   deleteWish: Scalars['Boolean'];
+  createMember: MemberResponse;
 };
 
 
@@ -136,6 +169,11 @@ export type MutationDeleteWishArgs = {
   wishId: Scalars['Int'];
 };
 
+
+export type MutationCreateMemberArgs = {
+  memberInput: MemberInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   chickenNuggets: Scalars['String'];
@@ -149,6 +187,8 @@ export type Query = {
   wishById: WishResponse;
   myWishesForTimespan: MultipleWishesResponse;
   wishesForHouse: MultipleWishesResponse;
+  membersByHouseId?: Maybe<MultipleMembersResponse>;
+  getCreatedFood?: Maybe<MultipleFoodsResponse>;
 };
 
 
@@ -192,6 +232,16 @@ export type QueryWishesForHouseArgs = {
   houseId: Scalars['Int'];
 };
 
+
+export type QueryMembersByHouseIdArgs = {
+  houseId: Scalars['Int'];
+};
+
+
+export type QueryGetCreatedFoodArgs = {
+  memberId: Scalars['Int'];
+};
+
 export type RegisterInput = {
   houseName: Scalars['String'];
   password: Scalars['String'];
@@ -220,6 +270,8 @@ export type Wish = {
   __typename?: 'Wish';
   id: Scalars['Int'];
   foodId: Scalars['Int'];
+  suggester: Member;
+  assigned: Member;
   food: Food;
   houseId: Scalars['Int'];
   house: House;

@@ -1,8 +1,7 @@
 import React from 'react';
+import { Login } from './screens/Login';
+import { MemberSelect } from './screens/MemberSelect';
 import { createStackNavigator } from '@react-navigation/stack';
-import { HouseName } from './screens/HouseName';
-import { Password } from './screens/Password';
-import { Private } from './screens/Private';
 
 const Stack = createStackNavigator();
 
@@ -10,9 +9,8 @@ export const LoginStack = () => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name='HouseName' component={HouseName}/>
-      <Stack.Screen name='Password' component={Password}/>
-      <Stack.Screen name='Private' component={Private}/>
+      <Stack.Screen name='Login' component={Login} options={{ headerShown: false }}/>
+      <Stack.Screen name='MemberSelect' component={MemberSelect} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 };
