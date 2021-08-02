@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { client } from './utils/createClient';
 import { useMyHouseQuery } from './generated/graphql';
 import { LoginScreenOptions } from './navigationOptions/LoginStackOptions';
+import { colors } from './themes/Lighttheme';
 
 const RootStack = createStackNavigator();
 const Auth = createContext({
