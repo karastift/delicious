@@ -4,7 +4,7 @@ export const colors = {
   background: 'white',
   text: 'black',
   highlighted: 'rgb(0, 200, 0)',
-  darkHiglighted: 'rgb(0, 180, 0),',
+  darkHiglighted: 'rgb(0, 180,0)',
   lighterText: 'grey',
   evenLighterText: 'rgba(0, 0, 0, 0.05)',
   oppositeText: 'red',
