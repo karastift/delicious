@@ -2,16 +2,16 @@ import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, Linking } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../themes/Lighttheme';
-import { beautifyDate } from '../utils/beautifyDate';
-import { beautifyTime } from '../utils/beautifyTime';
 
-export const NewFoodSnippet = (props: {
+interface NewFoodSnippetProps {
   foodName: string;
   description?: string;
   creator: string;
   recipeLink?: string;
   onPress: () => void;
-}) => {
+}
+
+export const NewFoodSnippet: React.FC<NewFoodSnippetProps> = (props) => {
 
   return (
     <TouchableOpacity style={styles.memberBlockWrapper}>

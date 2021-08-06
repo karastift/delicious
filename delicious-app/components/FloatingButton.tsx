@@ -2,11 +2,13 @@ import React from "react";
 import { FAB } from "react-native-paper";
 import { colors } from "../themes/Lighttheme";
 
-export const FloatingButton = (props: {
+interface FloatingButtonProps {
   name: string;
   onPress: () => void;
-  onPressLong?: () => void
-}) => {
+  onPressLong?: () => void;
+}
+
+export const FloatingButton: React.FC<FloatingButtonProps> = (props) => {
 
   return (
     <FAB
