@@ -3,8 +3,9 @@ import { ScrollView, View, Text, Dimensions, StyleSheet, TouchableOpacity } from
 import { FloatingButton } from '../../../components/FloatingButton';
 import { MemberBlock } from '../../../components/MemberBlock';
 import { colors, defaultContainerStyles } from '../../../themes/Lighttheme';
+import { HouseProps } from '../../../types/NavigationTypes';
 
-export const House = () => {
+export const House: React.FC<HouseProps> = () => {
 
   return (
     <View style={defaultContainerStyles}>

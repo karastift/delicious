@@ -12,9 +12,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import { client } from './utils/createClient';
 import { useMyHouseQuery } from './generated/graphql';
 import { LoginScreenOptions } from './navigationOptions/LoginStackOptions';
-import { colors } from './themes/Lighttheme';
+import { RootStackParamList } from './types/NavigationTypes';
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 const Auth = createContext({
   setAuthenticated: undefined as unknown,
 });

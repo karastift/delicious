@@ -4,8 +4,9 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { TextField } from '../../../components/TextField';
 import { colors, defaultContainerStyles } from '../../../themes/Lighttheme';
+import { LoginProps } from '../../../types/NavigationTypes';
 
-export const Login = () => {
+export const Login: React.FC<LoginProps> = () => {
 
   return (
     <View style={defaultContainerStyles}>
