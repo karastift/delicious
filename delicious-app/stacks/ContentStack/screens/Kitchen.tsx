@@ -4,8 +4,9 @@ import { FloatingButton } from '../../../components/FloatingButton';
 import { FoodSnippet } from '../../../components/FoodSnippet';
 import { NewFoodSnippet } from '../../../components/NewFoodSnippet';
 import { defaultContainerStyles } from '../../../themes/Lighttheme';
+import { KitchenProps } from '../../../types/NavigationTypes';
 
-export const Kitchen = () => {
+export const Kitchen: React.FC<KitchenProps> = () => {
 
   return (
     <View style={defaultContainerStyles}>

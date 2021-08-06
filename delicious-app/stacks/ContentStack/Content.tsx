@@ -7,10 +7,11 @@ import { ContentTabBarOptions } from '../../navigationOptions/ContentTabBarOptio
 import { WhiteboardScreenOptions } from '../../navigationOptions/WhiteboardScreenOptions';
 import { HouseScreenOptions } from '../../navigationOptions/HouseManagementScreenOptions';
 import { KitchenScreenOptions } from '../../navigationOptions/KitchenScreenOptions';
+import { ContentParamList, ContentProps } from '../../types/NavigationTypes';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<ContentParamList>();
 
-export const Content = () => {
+export const Content: React.FC<ContentProps> = () => {
 
   /*
   calendar with all wishes, new food additions, like dashboard

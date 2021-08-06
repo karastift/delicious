@@ -6,8 +6,9 @@ import { FloatingButton } from '../../../components/FloatingButton';
 import { NewWishSnippet } from '../../../components/NewWishSnippet';
 import { Wish } from '../../../generated/graphql';
 import { defaultContainerStyles } from '../../../themes/Lighttheme';
+import { WhiteBoardProps } from '../../../types/NavigationTypes';
 
-export const Whiteboard = () => {
+export const Whiteboard: React.FC<WhiteBoardProps> = () => {
 
   const exampleWish: Wish = {
     id: 1,
