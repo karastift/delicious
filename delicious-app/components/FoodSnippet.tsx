@@ -2,13 +2,15 @@ import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { colors } from '../themes/Lighttheme';
 
-export const FoodSnippet = (props: {
+interface FoodSnippetProps {
   foodName: string;
   description?: string;
   creator: string;
   recipeLink?: string;
   onPress: () => void;
-}) => {
+}
+
+export const FoodSnippet: React.FC<FoodSnippetProps> = (props) => {
 
   return (
     <TouchableOpacity style={styles.wishWrapper}>

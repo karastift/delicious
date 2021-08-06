@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
 import { colors } from "../themes/Lighttheme";
 
-export const TextField = (props: {
+interface TextFieldProps {
   label: string;
   error: boolean;
   onChangeText: (arg0: string) => void;
@@ -12,7 +12,9 @@ export const TextField = (props: {
   autoFocus?: boolean;
   iconName: string;
   style?: ViewStyle;
-}) => {
+}
+
+export const TextField: React.FC<TextFieldProps> = (props) => {
 
   return (
     <TextInput

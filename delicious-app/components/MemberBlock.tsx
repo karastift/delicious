@@ -4,11 +4,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../themes/Lighttheme';
 
-export const MemberBlock = (props: {
+interface MemberBlockProps {
   name: string;
   role: 'child' | 'adult';
   foodMade: number;
-}) => {
+}
+
+export const MemberBlock: React.FC<MemberBlockProps> = (props) => {
 
   return (
     <TouchableOpacity style={styles.memberBlockWrapper}>

@@ -5,14 +5,16 @@ import { colors } from '../themes/Lighttheme';
 import { beautifyDate } from '../utils/beautifyDate';
 import { beautifyTime } from '../utils/beautifyTime';
 
-export const NewWishSnippet = (props: {
+interface NewWishSnippetProps {
   foodName: string;
   time: string;
   pending?: boolean;
   suggestingMember: string;
   assignedMember: string;
   onPress: () => void;
-}) => {
+}
+
+export const NewWishSnippet: React.FC<NewWishSnippetProps> = (props) => {
 
   return (
     <TouchableOpacity style={styles.memberBlockWrapper}>
